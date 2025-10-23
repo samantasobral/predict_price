@@ -1,4 +1,5 @@
 from flask import Flask, request, Response
+import gdown
 import os
 import json
 import pickle 
@@ -7,7 +8,15 @@ import traceback
 
 from empresa.empresa import PredictPrice
 
-model = pickle.load(open('model/final_model.pkl', 'rb'))
+def carregar_modelo_grande(file_id, destino='model.pkl'):
+    if not os.path.exists(destino):
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, destino, quiet=False)
+    with open(destino, 'rb') as f:
+        return pickle.load(f)
+
+model = carregar_modelo_grande("19PunwujGRBa2f9QGWx_GqjZ6ruPExEbr")
+
 app = Flask(__name__)
 
 @app.route('/empresa/predict', methods=['POST'])
@@ -39,4 +48,5 @@ def price_predict():
     
 if __name__ == '__main__':
     port = os.environ.get('PORT', 5000)
+
     app.run(host='0.0.0.0', port=port, debug=True)
