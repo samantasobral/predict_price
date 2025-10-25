@@ -46,8 +46,5 @@ def price_predict():
         traceback.print_exc()  # mostra o erro completo no terminal
         return Response(json.dumps({'erro': str(e)}), status=500, mimetype='application/json')
     
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
 
-    app.run(host='0.0.0.0', port=port, debug=True)
 
