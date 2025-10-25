@@ -45,6 +45,12 @@ def price_predict():
         print("❌ Erro interno na API:")
         traceback.print_exc()  # mostra o erro completo no terminal
         return Response(json.dumps({'erro': str(e)}), status=500, mimetype='application/json')
+
+
+@app.route('/ping', methods=['GET'])
+def ping():
+    return "pong", 200
     
+
 
 
